@@ -11,6 +11,6 @@ router
   .put(controller.update)
   .delete(controller.destroy)
   .all(methodNotAllowed);
-router.use("/", controller.list).all(methodNotAllowed);
+// router.use(s"/", controller.list).all(methodNotAllowed);
 
 module.exports = router;

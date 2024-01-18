@@ -11,9 +11,9 @@ const reviewsController = require("./reviews/reviews.controller");
 app.use(cors());
 app.use(express.json());
 
-app.use("./movies", moviesRouter);
-app.use("./reviews", reviewsRouter);
-app.use("./theaters", theatersRouter);
+app.use("/movies", moviesRouter);
+app.use("/reviews", reviewsRouter);
+app.use("/theaters", theatersRouter);
 
 // TODO: Add your code here
 // Not found handler
