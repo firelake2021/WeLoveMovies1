@@ -54,40 +54,6 @@ async function read(movie_id) {
   return knex("movies").select("*").where({ movie_id: movie_id }).first();
 }
 
-// async function listMovieAndReviews(movie_id) {
-//   return db("reviews as r")
-//     .select(
-//       "r.review_id",
-//       "r.content",
-//       "r.score",
-//       "r.created_at",
-//       "r.updated_at",
-//       "r.critic_id",
-//       "r.movie_id",
-//       { critic_id: "c.critic_id" },
-//       { preferred_name: "c.preferred_name" },
-//       { surname: "c.surname" },
-//       { organization_name: "c.organization_name" },
-//       { critic_created_at: "c.created_at" },
-//       { critic_updated_at: "c.updated_at" }
-//     )
-//     .where({ "r.movie_id": movie_id })
-//     .join("critics as c", "r.critic_id", "c.critic_id")
-//     .then((reviews) => {
-//       return reviews.map((review) => ({
-//         ...review,
-//         critic: {
-//           critic_id: review.critic_id,
-//           preferred_name: review.preferred_name,
-//           surname: review.surname,
-//           organization_name: review.organization_name,
-//           created_at: review.critic_created_at,
-//           updated_at: review.critic_updated_at,
-//         },
-//       }));
-//     });
-// }
-
 const addCritic = mapProperties({
   critic_id: "critic.critic_id",
   preferred_name: "critic.preferred_name",

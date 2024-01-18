@@ -12,7 +12,6 @@ const addCritic = mapProperties({
   updated_at: "critic.updated_at",
 });
 
-// works
 async function destroy(review_id) {
   // TODO: Write your code here
   return knex(tableName).where({ review_id }).del();
@@ -48,7 +47,6 @@ async function list(movie_id) {
     });
 }
 
-// works //114
 async function read(review_id) {
   // TODO: Write your code here
   return await knex(tableName).select("*").where({ review_id }).first();
