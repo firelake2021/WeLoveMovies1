@@ -8,13 +8,12 @@ const theatersRouter = require("../theaters/theaters.router");
 // TODO: Add your routes here
 
 router
-  .use("/:movieId/reviews", controller.movieExists, reviewsRouter)
-  .all(methodNotAllowed);
-
-router
   .use("/:movieId/theaters", controller.showingInTheaters)
   .all(methodNotAllowed);
 router.route("/", controller.list).get(controller.list).all(methodNotAllowed);
 router.route("/:movieId").get(controller.read).all(methodNotAllowed);
 
+router
+  .use("/:movieId/reviews", controller.movieExists, reviewsRouter)
+  .all(methodNotAllowed);
 module.exports = router;
