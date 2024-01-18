@@ -1,5 +1,6 @@
 const knex = require("../db/connection");
 const db = require("../db/connection");
+const mapProperties = require("../utils/map-properties");
 
 async function list(is_showing) {
   return db("movies")
@@ -53,8 +54,55 @@ async function read(movie_id) {
   return knex("movies").select("*").where({ movie_id: movie_id }).first();
 }
 
+// async function listMovieAndReviews(movie_id) {
+//   return db("reviews as r")
+//     .select(
+//       "r.review_id",
+//       "r.content",
+//       "r.score",
+//       "r.created_at",
+//       "r.updated_at",
+//       "r.critic_id",
+//       "r.movie_id",
+//       { critic_id: "c.critic_id" },
+//       { preferred_name: "c.preferred_name" },
+//       { surname: "c.surname" },
+//       { organization_name: "c.organization_name" },
+//       { critic_created_at: "c.created_at" },
+//       { critic_updated_at: "c.updated_at" }
+//     )
+//     .where({ "r.movie_id": movie_id })
+//     .join("critics as c", "r.critic_id", "c.critic_id")
+//     .then((reviews) => {
+//       return reviews.map((review) => ({
+//         ...review,
+//         critic: {
+//           critic_id: review.critic_id,
+//           preferred_name: review.preferred_name,
+//           surname: review.surname,
+//           organization_name: review.organization_name,
+//           created_at: review.critic_created_at,
+//           updated_at: review.critic_updated_at,
+//         },
+//       }));
+//     });
+// }
+
+const addCritic = mapProperties({
+  critic_id: "critic.critic_id",
+  preferred_name: "critic.preferred_name",
+  surname: "critic.surname",
+  organization_name: "critic.organization_name",
+  created_at: "critic.created_at",
+  updated_at: "critic.updated_at",
+});
+
 async function listMovieAndReviews(movie_id) {
-  return db("reviews as r")
+  // TODO: Write your code here
+  return await knex("reviews as r")
+    .join("movies as m", "r.movie_id", "m.movie_id")
+    .join("critics as c", "r.critic_id", "c.critic_id")
+    .where({ "r.movie_id": movie_id })
     .select(
       "r.review_id",
       "r.content",
@@ -63,27 +111,19 @@ async function listMovieAndReviews(movie_id) {
       "r.updated_at",
       "r.critic_id",
       "r.movie_id",
-      { critic_id: "c.critic_id" },
-      { preferred_name: "c.preferred_name" },
-      { surname: "c.surname" },
-      { organization_name: "c.organization_name" },
-      { critic_created_at: "c.created_at" },
-      { critic_updated_at: "c.updated_at" }
+      "c.critic_id",
+      "c.preferred_name",
+      "c.surname",
+      "c.organization_name",
+      "c.created_at",
+      "c.updated_at"
     )
-    .where({ "r.movie_id": movie_id })
-    .join("critics as c", "r.critic_id", "c.critic_id")
-    .then((reviews) => {
-      return reviews.map((review) => ({
-        ...review,
-        critic: {
-          critic_id: review.critic_id,
-          preferred_name: review.preferred_name,
-          surname: review.surname,
-          organization_name: review.organization_name,
-          created_at: review.critic_created_at,
-          updated_at: review.critic_updated_at,
-        },
-      }));
+    .then((res) => {
+      const outcome = [];
+      res.forEach((element) => {
+        outcome.push(addCritic(element));
+      });
+      return outcome;
     });
 }
 

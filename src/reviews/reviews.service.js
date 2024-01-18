@@ -39,7 +39,6 @@ async function list(movie_id) {
       "c.created_at",
       "c.updated_at"
     )
-
     .then((res) => {
       const outcome = [];
       res.forEach((element) => {
