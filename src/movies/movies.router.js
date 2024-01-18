@@ -14,10 +14,7 @@ router
 router
   .use("/:movieId/theaters", controller.showingInTheaters)
   .all(methodNotAllowed);
-router
-  .route("/", controller.list)
-  .get(cors(), controller.list)
-  .all(methodNotAllowed);
-router.route("/:movieId").get(cors(), controller.read).all(methodNotAllowed);
+router.route("/", controller.list).get(controller.list).all(methodNotAllowed);
+router.route("/:movieId").get(controller.read).all(methodNotAllowed);
 
 module.exports = router;

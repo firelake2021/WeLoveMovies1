@@ -7,9 +7,9 @@ const cors = require("cors");
 
 router
   .route("/:reviewId")
-  .get(cors(), controller.read)
-  .put(cors(), controller.update)
-  .delete(cors(), controller.destroy)
+  .get(controller.read)
+  .put(controller.update)
+  .delete(controller.destroy)
   .all(methodNotAllowed);
 router.use("/", controller.list).all(methodNotAllowed);
 
