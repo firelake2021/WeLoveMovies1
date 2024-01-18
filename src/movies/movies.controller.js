@@ -12,6 +12,12 @@ async function movieExists(request, response, next) {
   return next();
 }
 
+async function listMovieReviews(request, response, next) {
+  const { movieId } = request.params;
+  const reviews = await service.listMovieAndReviews(Number(movieId));
+  response.json({ data: reviews });
+}
+
 async function read(request, response) {
   // TODO: Add your code here
   const { movie } = response.locals;
@@ -50,4 +56,5 @@ module.exports = {
   showingInTheaters: [asyncErrorBoundary(movieExists), showingInTheaters],
   movieExists: [asyncErrorBoundary(movieExists)],
   getMovieReviews,
+  listMovieReviews: [asyncErrorBoundary(movieExists), listMovieReviews],
 };

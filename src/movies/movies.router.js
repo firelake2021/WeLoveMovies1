@@ -5,7 +5,6 @@ const methodNotAllowed = require("../errors/methodNotAllowed");
 
 const reviewsRouter = require("../reviews/reviews.router");
 const theatersRouter = require("../theaters/theaters.router");
-// TODO: Add your routes here
 
 router
   .use("/:movieId/theaters", controller.showingInTheaters)
@@ -14,6 +13,10 @@ router.route("/", controller.list).get(controller.list).all(methodNotAllowed);
 router.route("/:movieId").get(controller.read).all(methodNotAllowed);
 
 router
-  .use("/:movieId/reviews", controller.movieExists, reviewsRouter)
+  .route("/:movieId/reviews")
+  .get(controller.listMovieReviews)
   .all(methodNotAllowed);
+// router
+//   .use("/:movieId/reviews", controller.movieExists, reviewsRouter)
+//   .all(methodNotAllowed);
 module.exports = router;
